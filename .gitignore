@@ -1,0 +1,41 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Jupyter temporary files
+.ipynb_checkpoints/
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local MLflow database and experiment artifacts
+mlflow.db
+mlflow.db-*
+mlruns/
+
+# Logs and temporary files
+logs/
+*.log
+*.tmp
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Keep project data, notebooks, reports, and trained models
+# included unless a specific sensitive file needs exclusion.
