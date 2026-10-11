@@ -8,6 +8,15 @@ The project covers data preparation, preprocessing, model training and evaluatio
 
 **Disclaimer:** This is an academic demonstration and is not intended for clinical use or medical diagnosis.
 
+## Project Resources
+
+- **[Implementation Notebook](notebooks/MLOps%20Assignment.ipynb)** — Data analysis, preprocessing, model training, evaluation, and experiment tracking.
+- **[FastAPI Application](api/main.py)** — REST API for serving predictions.
+- **[Prediction Module](src/predict.py)** — Loads the saved model and generates predictions.
+- **[Automated Tests](tests/)** — Tests for prediction functionality and API behavior.
+- **[GitHub Actions Workflow](.github/workflows/ci.yml)** — Automated testing and CI checks.
+- **[Dockerfile](Dockerfile)** — Container configuration for the API.
+
 ## 2. Objectives
 
 - Build a reproducible machine learning pipeline.
@@ -48,7 +57,50 @@ Missing values are handled through the preprocessing pipeline.
 9. Save the selected model pipeline.
 10. Reuse the saved pipeline for predictions.
 
-## 5. Model Evaluation
+## 5. System Architecture
+
+The project follows an end-to-end ML workflow, from dataset preparation to model serving and automated validation.
+
+```text
+UCI Cleveland Heart Disease Dataset
+                |
+                v
+      Data Cleaning & Preprocessing
+                |
+                v
+       Train/Test Data Split
+                |
+                v
+   Model Training & Evaluation
+   (Logistic Regression / Random Forest)
+                |
+                v
+       MLflow Experiment Tracking
+                |
+                v
+      Selected Model Persistence
+                |
+                v
+       FastAPI Prediction Service
+                |
+                v
+        Docker Containerization
+
+GitHub Actions CI
+        |
+        v
+Dependency Installation
+        |
+        v
+Model Artifact Verification
+        |
+        v
+Automated Tests (pytest)
+```
+
+The trained model is loaded by the API to generate predictions. Docker packages the API and its runtime dependencies, while GitHub Actions runs automated checks when changes are pushed or pull requests are opened.
+
+## 6. Model Evaluation
 
 The following are the recorded test-set results:
 
@@ -60,11 +112,13 @@ The following are the recorded test-set results:
 | F1-score | 0.8814 | 0.8814 |
 | ROC-AUC | 0.9665 | 0.9443 |
 
+Cross-validation was also used to compare model performance. Logistic Regression achieved a mean ROC-AUC of 0.9025, compared with 0.8944 for Random Forest. Together with the recorded test-set results, these findings supported selecting Logistic Regression as the saved model for the prediction API.
+
 Logistic Regression was selected as the saved model based on the project evaluation.
 
 These results are from this particular train/test split and should not be interpreted as clinical performance guarantees.
 
-## 6. Technology Stack
+## 7. Technology Stack
 
 - Python
 - pandas and NumPy
@@ -77,7 +131,7 @@ These results are from this particular train/test split and should not be interp
 - Docker and Docker Compose
 - GitHub Actions
 
-## 7. Project Structure
+## 8. Project Structure
 
 ```text
 heart_disease_mlops/
@@ -109,7 +163,7 @@ heart_disease_mlops/
 
 Additional directories and files may be present in the working project.
 
-## 8. Run the API Locally
+## 9. Run the API Locally
 
 Install the API dependencies:
 
@@ -131,7 +185,7 @@ Open the interactive API documentation:
 
 The prediction endpoint is `POST /predict`.
 
-## 9. Run Automated Tests
+## 10. Run Automated Tests
 
 From the project root:
 
@@ -141,7 +195,7 @@ python -m pytest tests/ -v
 
 The current local test suite contains eight tests covering the prediction module, API endpoints, output structure, and invalid inputs.
 
-## 10. Docker Deployment
+## 11. Docker Deployment
 
 Build the image from the project root:
 
@@ -179,13 +233,13 @@ Stop the container:
 docker compose down
 ```
 
-## 11. Continuous Integration
+## 12. Continuous Integration
 
-The GitHub Actions workflow is located at `.github/workflows/ci.yml`.
+The GitHub Actions workflow is located at .github/workflows/ci.yml.
 
 It is configured to:
-- Run on pushes and pull requests targeting `main` or `master`.
-- Support manual execution using `workflow_dispatch`.
+- Run on pushes and pull requests targeting main or master.
+- Support manual execution using workflow_dispatch.
 - Set up Python 3.11.
 - Install API dependencies and test dependencies.
 - Verify that the trained model artifact exists.
@@ -193,13 +247,13 @@ It is configured to:
 
 The workflow must be pushed to a GitHub repository before its hosted CI execution can be verified.
 
-## 12. Limitations
+## 13. Limitations
 
 - The dataset is relatively small and is used for academic demonstration.
 - Model metrics depend on the chosen data split and evaluation procedure.
 - The API does not replace professional medical assessment.
 - The current CI workflow tests the application but does not publish a Docker image or deploy it to a cloud service.
 
-## 13. Conclusion
+## 14. Conclusion
 
 This project demonstrates the integration of machine learning development with practical MLOps components, including experiment tracking, model persistence, API serving, containerization, automated testing, and CI configuration.
